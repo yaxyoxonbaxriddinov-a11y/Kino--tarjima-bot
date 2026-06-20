@@ -1,4 +1,6 @@
-import asyncio
+aiogram
+aiohttp
+deep-translator import asyncio
 import os
 from aiohttp import web
 from aiogram import Bot, Dispatcher, types
