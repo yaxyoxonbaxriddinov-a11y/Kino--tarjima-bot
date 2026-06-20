@@ -1,3 +1,4 @@
+
 import asyncio
 import os
 from aiohttp import web
@@ -15,6 +16,7 @@ async def start_command(message: types.Message):
 @dp.message()
 async def translate_text(message: types.Message):
     try:
+        # Matnni avtomatik aniqlash va o'zbek tiliga tarjima qilish
         translated = GoogleTranslator(source='auto', target='uz').translate(message.text)
         await message.answer(f"Tarjimasi: {translated}")
     except Exception:
@@ -35,7 +37,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-
-
 
