@@ -1,10 +1,9 @@
-aiogram
-aiohttp
-deep-translator import asyncio
+import asyncio
 import os
 from aiohttp import web
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
+from deep_translator import GoogleTranslator
 
 # Tokenni muhit o'zgaruvchisidan olamiz
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
@@ -13,9 +12,14 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def start_command(message: types.Message):
-    await message.answer(
-        "Assalomu alaykum! Men kino qidiradigan botman."
-    )
+    await message.answer("Assalomu alaykum! Men kino qidiradigan va tarjima qiladigan botman.")
+
+# Oddiy tarjima funksiyasi (Buni keyinroq ishlatamiz)
+@dp.message()
+async def translate_text(message: types.Message):
+    # Hozircha oddiy tarjima
+    translated = GoogleTranslator(source='auto', target='uz').translate(message.text)
+    await message.answer(translated)
 
 # Render uchun oddiy veb-server
 async def web_server(request):
@@ -37,4 +41,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
