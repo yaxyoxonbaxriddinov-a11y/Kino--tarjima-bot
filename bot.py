@@ -1,3 +1,11 @@
+@dp.message()
+async def chat_handler(message):
+try:
+response = model.generate_content(message.text)
+await message.answer(response.text)
+except Exception as e:
+# Bu qator xatolikni aniq ko'rsatib beradi
+await message.answer(f"❌ Xatolik: {str(e)}")
 import asyncio
 import os
 import google.generativeai as genai
