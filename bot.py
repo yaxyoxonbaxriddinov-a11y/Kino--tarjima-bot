@@ -32,10 +32,13 @@ async def run_server():
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     await asyncio.gather(dp.start_polling(bot), run_server())
-
 if __name__ == "__main__":
     asyncio.run(main())
+# ... (oldingi importlar qoladi)
+# Modelni chaqirish qismini shunday qiling:
+model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
+# ... (qolgan kod qoladi)
 
 
 
