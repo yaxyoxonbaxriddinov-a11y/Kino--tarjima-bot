@@ -4,9 +4,9 @@ import google.generativeai as genai
 from aiogram import Bot, Dispatcher
 from aiohttp import web
 
-# Model nomini to'g'ri qiymatga qaytaramiz
+# Model sozlamalari
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash') 
+model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
 bot = Bot(token=os.environ.get("BOT_TOKEN"))
 dp = Dispatcher()
@@ -17,7 +17,6 @@ async def chat_handler(message):
         response = model.generate_content(message.text)
         await message.answer(response.text)
     except Exception as e:
-        # Agar yana xatolik bo'lsa, bot sizga aynan nima xato ekanligini yozadi
         await message.answer(f"❌ Xatolik yuz berdi: {str(e)}")
 
 async def run_server():
@@ -32,13 +31,9 @@ async def run_server():
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     await asyncio.gather(dp.start_polling(bot), run_server())
+
 if __name__ == "__main__":
     asyncio.run(main())
-# ... (oldingi importlar qoladi)
-# Modelni chaqirish qismini shunday qiling:
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
-
-# ... (qolgan kod qoladi)
 
 
 
