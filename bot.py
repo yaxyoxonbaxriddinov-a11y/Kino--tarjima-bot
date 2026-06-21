@@ -1,37 +1,25 @@
-@dp.message()
-async def chat_handler(message):
-try:
-response = model.generate_content(message.text)
-await message.answer(response.text)
-except Exception as e:
-# Bu qator xatolikni aniq ko'rsatib beradi
-await message.answer(f"❌ Xatolik: {str(e)}")
 import asyncio
 import os
 import google.generativeai as genai
 from aiogram import Bot, Dispatcher
 from aiohttp import web
 
-# 1. Konfiguratsiya
+# 1. Sozlamalar
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 model = genai.GenerativeModel('gemini-pro')
 bot = Bot(token=os.environ.get("BOT_TOKEN"))
 dp = Dispatcher()
 
-# 2. Bot funksiyalari
+# 2. Bot funksiyasi (xatolikni aniq ko'rsatish uchun)
 @dp.message()
 async def chat_handler(message):
     try:
         response = model.generate_content(message.text)
         await message.answer(response.text)
-    except Exception:
-        await message.answer("Xatolik yuz berdi.")
+    except Exception as e:
+        await message.answer(f"❌ Xatolik: {str(e)}")
 
-async def run_bot():
-    await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot)
-
-# 3. Port ochuvchi qism (Render xatosini yo'qotish uchun)
+# 3. Server qismi (Render uchun)
 async def handle(request):
     return web.Response(text="Bot ishlayapti")
 
@@ -40,14 +28,14 @@ async def run_server():
     app.router.add_get('/', handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    # Render avtomatik port belgilaydi
     port = int(os.environ.get("PORT", 8080))
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
 
+# 4. Asosiy qism
 async def main():
-    # Bot va Serverni bir vaqtda ishga tushirish
-    await asyncio.gather(run_bot(), run_server())
+    await bot.delete_webhook(drop_pending_updates=True)
+    await asyncio.gather(dp.start_polling(bot), run_server())
 
 if __name__ == "__main__":
     asyncio.run(main())
