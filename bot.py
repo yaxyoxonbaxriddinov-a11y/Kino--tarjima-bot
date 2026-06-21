@@ -8,7 +8,8 @@ from aiohttp import web
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 
 # 2. Modelni chaqirish (agar 1.5-flash xato bersa, 'gemini-1.5-pro' deb yozib ko'ring)
-model = genai.GenerativeModel('gemini-pro')
+# Eski model nomi o'rniga to'liq yo'lni yozamiz
+model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
 
 # 3. Bot va Dispatcher
 bot = Bot(token=os.environ.get("BOT_TOKEN"))
