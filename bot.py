@@ -7,7 +7,7 @@ from aiohttp import web
 # 1. Sozlamalar
 # Model nomini 'gemini-1.5-flash' ga o'zgartirdik
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash') 
+model = genai.GenerativeModel('gemini-2.5-flash') 
 
 bot = Bot(token=os.environ.get("BOT_TOKEN"))
 dp = Dispatcher()
