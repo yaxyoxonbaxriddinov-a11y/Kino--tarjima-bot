@@ -1,10 +1,11 @@
+
 import asyncio
 import os
 import google.generativeai as genai
 from aiogram import Bot, Dispatcher
 from aiohttp import web
 
-# Konfiguratsiya
+# Google Gemini sozlamalari
 genai.configure(
     api_key=os.environ.get("GOOGLE_API_KEY"),
     client_options={'api_version': 'v1'}
@@ -38,6 +39,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-
 
